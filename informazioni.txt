@@ -1,6 +1,0 @@
-Rachel;Green;Via Central Perk 1;000000001;27
-Ross;Geller;Via Museo 2;000000002;29
-Monica;Geller;Via Manhattan 3;000000003;26
-Chandler;Bing;Via Sarcasmo 4;000000004;27
-Joey;Tribbiani;Via Pizza 5;000000005;27
-Phoebe;Buffay;Via Smelly Cat 6;000000006;28
