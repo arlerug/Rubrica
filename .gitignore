@@ -5,7 +5,6 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 .kotlin
-informazioni/
 
 ### Eclipse ###
 .apt_generated

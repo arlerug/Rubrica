@@ -42,16 +42,6 @@ public class Rubrica extends JFrame {
 
         JScrollPane pannelloTabella = new JScrollPane(tabella);
 
-        //JButton nuovo= new JButton("Nuovo");
-        //JButton modifica = new JButton("Modifica");
-        //JButton elimina= new JButton("Elimina");
-        //JPanel pulsanti = new JPanel();
-        //pulsanti.add(nuovo);
-        //pulsanti.add(modifica);
-        //pulsanti.add(elimina);
-
-        //add(titolo,BorderLayout.NORTH);
-        //add(pulsanti,BorderLayout.SOUTH);
         JPanel pannelloSuperiore = new JPanel(new BorderLayout());
 
         pannelloSuperiore.add(titolo, BorderLayout.NORTH);
@@ -60,9 +50,6 @@ public class Rubrica extends JFrame {
         add(pannelloSuperiore, BorderLayout.NORTH);
         add(pannelloTabella,BorderLayout.CENTER);
 
-//        nuovo.addActionListener(e -> apriEditorNuovo());
-//        modifica.addActionListener(e -> apriEditorModifica());
-//        elimina.addActionListener(e -> eliminaPersona());
     }
 
     private void caricaPersoneDaFile() {
@@ -84,7 +71,6 @@ public class Rubrica extends JFrame {
                     String riga = scanner.nextLine();
 
                     String[] dati = riga.split(";");
-                    System.out.println(dati.length);
                     if (dati.length == 5) {
                         String nome = dati[0];
                         String cognome = dati[1];
