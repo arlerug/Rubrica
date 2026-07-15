@@ -10,6 +10,7 @@ public class Rubrica extends JFrame {
     private JTable tabella;
     private DefaultTableModel modelloTabella;
     private final ArrayList<Persona> listaPersone=new ArrayList<>();
+    private static final String NOME_CARTELLA = "informazioni";
 
     public Rubrica(){
         setLayout(new BorderLayout());
@@ -65,39 +66,46 @@ public class Rubrica extends JFrame {
     }
 
     private void caricaPersoneDaFile() {
-        File file = new File("informazioni.txt");
+        File cartella = new File(NOME_CARTELLA);
 
-        if (!file.exists()) {
+        if (!cartella.exists()) {
+            return;
+        }
+        File[] filePersone = cartella.listFiles();
+
+        if(filePersone==null){
             return;
         }
 
-        try (Scanner scanner = new Scanner(file)) {
+        for(File filePersona : filePersone) {
+            try (Scanner scanner = new Scanner(filePersona)) {
 
-            while (scanner.hasNextLine()) {
-                String riga = scanner.nextLine();
+                if (scanner.hasNextLine()) {
+                    String riga = scanner.nextLine();
 
-                String[] dati = riga.split(";");
-                System.out.println(dati.length);
-                if (dati.length == 5) {
-                    String nome = dati[0];
-                    String cognome = dati[1];
-                    String indirizzo = dati[2];
-                    String telefono = dati[3];
-                    int eta = Integer.parseInt(dati[4]);
+                    String[] dati = riga.split(";");
+                    System.out.println(dati.length);
+                    if (dati.length == 5) {
+                        String nome = dati[0];
+                        String cognome = dati[1];
+                        String indirizzo = dati[2];
+                        String telefono = dati[3];
+                        int eta = Integer.parseInt(dati[4]);
 
-                    Persona persona = new Persona(nome, cognome, indirizzo, telefono, eta);
+                        Persona persona = new Persona(nome, cognome, indirizzo, telefono, eta);
 
-                    aggiungiPersona(persona);
+                        aggiungiPersona(persona);
+                    }
                 }
-            }
 
-        } catch (FileNotFoundException e) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Errore durante la lettura del file.",
-                    "Errore",
-                    JOptionPane.ERROR_MESSAGE
-            );
+            } catch (FileNotFoundException e) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Errore durante la lettura del file.",
+                        "Errore",
+                        JOptionPane.ERROR_MESSAGE
+                );
+            }
         }
     }
 
@@ -208,21 +216,53 @@ public class Rubrica extends JFrame {
     }
 
     private void salvaPersoneSuFile() {
-        File file = new File("informazioni.txt");
+        File cartella = ottieniCartellaInformazioni();
+        cancellaFilePersone(cartella);
 
-        try (PrintStream output = new PrintStream(file)) {
+        try {
+            for (int i = 0; i < listaPersone.size(); i++) {
+                Persona persona = listaPersone.get(i);
 
-            for (Persona persona : listaPersone) {
-                output.println(persona.getNome() + ";" + persona.getCognome() + ";" + persona.getIndirizzo() + ";" + persona.getTelefono() + ";" + persona.getEta());
-            }
+                File filePersona = new File(
+                        cartella,
+                        "Persona" + (i + 1) + ".txt"
+                );
+                try (PrintStream output = new PrintStream(filePersona)) {
+                    output.println(persona.getNome() + ";" + persona.getCognome() + ";" + persona.getIndirizzo() + ";" + persona.getTelefono() + ";" + persona.getEta());
 
-        } catch (FileNotFoundException e) {
+                }
+                }
+            }catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(
                     this,
                     "Errore durante il salvataggio del file.",
                     "Errore",
                     JOptionPane.ERROR_MESSAGE
             );
+        }
+    }
+
+    private File ottieniCartellaInformazioni() {
+        File cartella = new File(NOME_CARTELLA);
+
+        if (!cartella.exists()) {
+            cartella.mkdir();
+        }
+
+        return cartella;
+    }
+
+    private void cancellaFilePersone(File cartella) {
+        File[] filePersone = cartella.listFiles();
+
+        if (filePersone == null) {
+            return;
+        }
+
+        for (File file : filePersone) {
+            if (file.isFile() && file.getName().endsWith(".txt")) {
+                file.delete();
+            }
         }
     }
 
