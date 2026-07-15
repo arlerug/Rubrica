@@ -163,7 +163,9 @@ public class Rubrica extends JFrame {
             JOptionPane.showMessageDialog(this,"Seleziona prima una persona da eliminare", "Errore", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        int risposta=JOptionPane.showConfirmDialog(this,"eliminare la persona selezionata?","Conferma eliminazione",JOptionPane.YES_NO_OPTION);
+        Persona personaSelezionata = listaPersone.get(rigaSelezionata);
+
+        int risposta=JOptionPane.showConfirmDialog(this,"eliminare "+personaSelezionata.getNome()+" "+personaSelezionata.getCognome()+"?","Conferma eliminazione",JOptionPane.YES_NO_OPTION);
 
         if(risposta==JOptionPane.YES_OPTION){
             listaPersone.remove(rigaSelezionata);
